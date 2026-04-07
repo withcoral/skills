@@ -12,7 +12,7 @@ npx skills add withcoral/skills
 
 | Skill | Description |
 |-------|-------------|
-| `coral` | Query connected sources using Coral SQL |
+| [`coral`](coral/SKILL.md) | Query connected sources using Coral SQL |
 
 ## License
 
