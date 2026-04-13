@@ -1,7 +1,7 @@
 interface:
   display_name: "Coral Create Source Spec"
-  short_description: "Author Coral source specs for import"
-  default_prompt: "Use $coral-create-source-spec to create or refine a Coral source spec YAML and validate it with coral source import."
+  short_description: "Author Coral source specs from file"
+  default_prompt: "Use $coral-create-source-spec to create or refine a Coral source spec YAML and validate it with coral source add --file."
 
 policy:
   allow_implicit_invocation: true
