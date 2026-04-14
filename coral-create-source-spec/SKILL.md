@@ -65,6 +65,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 ## Authoring Rules
 
 - Start small and expand table coverage incrementally.
+- Use the source manifest schema as both inspiration for authoring and validation of structure: https://github.com/withcoral/coral/blob/main/crates/coral-spec/src/schema/source_manifest.schema.json
 - Use source variables for non-secret configuration.
 - Use source secrets for credentials.
 - Keep table names stable and SQL-friendly.
