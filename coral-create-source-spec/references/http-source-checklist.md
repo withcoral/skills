@@ -61,7 +61,7 @@ Do not treat `COUNT(*)` as sufficient pagination proof. Fetch actual rows and co
 Use this loop while iterating:
 
 ```sh
-coral source import ./my-source.yaml
+coral source add --file ./my-source.yaml
 coral source test my_source
 coral sql "SELECT table_name FROM coral.tables WHERE schema_name = 'my_source'"
 coral sql "SELECT table_name, column_name, is_required_filter FROM coral.columns WHERE schema_name = 'my_source' ORDER BY table_name, column_name"

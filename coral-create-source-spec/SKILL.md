@@ -1,6 +1,6 @@
 ---
 name: coral-create-source-spec
-description: Create or update a Coral source spec YAML for a custom HTTP API or local dataset. Use when authoring a standalone source for `coral source import`, or when adapting that spec into a bundled source in the Coral repo.
+description: Create or update a Coral source spec YAML for a custom HTTP API or local dataset. Use when authoring a standalone source for `coral source add --file`, or when adapting that spec into a bundled source in the Coral repo.
 ---
 
 # Create Source Spec
@@ -11,7 +11,7 @@ Use this skill when the task is to author or repair a Coral source spec.
 
 Produce a valid, queryable Coral source spec that works with:
 
-- `coral source import <path>`
+- `coral source add --file <path>`
 - `coral source test <name>`
 - `coral sql`
 - `coral.tables` and `coral.columns`
@@ -23,7 +23,7 @@ Default to standalone source authoring for external developers.
 That means:
 
 - create a YAML source spec file
-- import it with `coral source import`
+- add it with `coral source add --file`
 - validate by querying it
 - iterate until the shape is correct
 
@@ -33,7 +33,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 
 - External authoring:
   - create a standalone source spec such as `./my-source.yaml`
-  - validate with `coral source import ./my-source.yaml`
+  - validate with `coral source add --file ./my-source.yaml`
 - Coral repo contribution:
   - write the source spec to `sources/<name>/manifest.yaml`
   - validate with `coral source test <name>` and repo checks
@@ -54,7 +54,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
    - pagination
    - typed columns
 4. Import the source:
-   - `coral source import <path>`
+   - `coral source add --file <path>`
 5. Validate the imported shape:
    - `coral source test <name>`
    - inspect `coral.tables`
@@ -77,7 +77,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 Use this loop during authoring:
 
 ```sh
-coral source import ./my-source.yaml
+coral source add --file ./my-source.yaml
 coral source test my_source
 coral sql "SELECT * FROM coral.tables WHERE schema_name = 'my_source'"
 coral sql "SELECT * FROM coral.columns WHERE schema_name = 'my_source'"
