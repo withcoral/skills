@@ -15,6 +15,7 @@ Produce a valid, queryable Coral source spec that works with:
 - `coral source test <name>`
 - `coral sql`
 - `coral.tables` and `coral.columns`
+- `coral.inputs` for source variables and secrets
 
 ## Default Mode
 
@@ -59,6 +60,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
    - `coral source test <name>`
    - inspect `coral.tables`
    - inspect `coral.columns`
+   - inspect `coral.inputs` to verify variables, secrets, defaults, hints, and required flags
 6. Query representative tables with `coral sql`.
 7. Refine the spec and repeat.
 
@@ -82,6 +84,7 @@ coral source add --file ./my-source.yaml
 coral source test my_source
 coral sql "SELECT * FROM coral.tables WHERE schema_name = 'my_source'"
 coral sql "SELECT * FROM coral.columns WHERE schema_name = 'my_source'"
+coral sql "SELECT key, kind, value, default_value, hint, required, is_set FROM coral.inputs WHERE schema_name = 'my_source' ORDER BY key"
 ```
 
 Then run targeted table queries until the source behaves correctly.
