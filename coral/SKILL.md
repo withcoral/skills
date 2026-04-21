@@ -28,7 +28,16 @@ WHERE schema_name = '<source>' AND table_name = '<table>'
 ORDER BY ordinal_position;
 ```
 
-4. **Then query:**
+4. **Inspect source inputs when config affects the query or answer.** This matters when you need source-specific values such as Datadog's `DD_SITE` or Sentry's `SENTRY_ORG` to build absolute links, explain account scope, or debug missing configuration.
+
+```sql
+SELECT key, kind, value, default_value, hint, required, is_set
+FROM coral.inputs
+WHERE schema_name = '<source>'
+ORDER BY key;
+```
+
+5. **Then query:**
 
 ```bash
 coral sql "SELECT <columns> FROM <source>.<table> WHERE <required_filters> LIMIT 10"
@@ -37,4 +46,5 @@ coral sql "SELECT <columns> FROM <source>.<table> WHERE <required_filters> LIMIT
 ## Query Guidance
 
 - **Virtual columns:** Filter-only columns accepted in WHERE clauses but returning NULL in results. Check `is_virtual` in `coral.columns`.
+- **`coral.inputs`:** Use it to inspect per-source variables and secrets before making assumptions about URLs, org names, regions, or other source config. Secret rows always return `value = NULL`; use `is_set` to confirm whether a secret is configured.
 - **Cross-source joins:** Standard SQL JOINs work across source schemas. Cross-source joins execute in memory after source scans complete.
