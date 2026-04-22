@@ -165,5 +165,3 @@ Report:
 - validation commands run
 - assumptions made
 - blocked or unverified endpoints
-
-When editing bundled Coral sources in-repo, also regenerate docs so source descriptions and input hints stay in sync with `docs/reference/bundled-sources.mdx`.
