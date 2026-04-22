@@ -24,6 +24,27 @@ Use:
 - variables for non-secret configuration such as API base URLs
 - secrets for API keys, tokens, and client secrets
 
+## Description and Input Hints
+
+- Start `description` with `Query ...`.
+- Make description capability-first: list the core entities users can query.
+- Keep setup/auth/scopes out of `description`; place those details in input hints.
+- Avoid generic metadata text (`REST API`, `OpenAPI provider`, `... and more`).
+
+For each input hint, include:
+
+- expected value type
+- where/how to get it
+- minimum permission/scope guidance
+- one concrete example when useful
+
+Additional hint guidance:
+
+- Base URL inputs should clarify default behavior and self-hosted alternatives.
+- Secret inputs should name token type and any format constraints (for example token prefixes).
+- For encoded credentials, include a short shell example (for example `printf ... | base64`).
+- Prefer official docs links and stable settings pages over brittle click-path instructions.
+
 ## Table Design
 
 - Prefer one table per collection endpoint.

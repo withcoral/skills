@@ -75,6 +75,50 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 - Prefer explicit pagination when the API shape is known.
 - Verify pagination with actual row fetches, not only `COUNT(*)`.
 
+## Metadata UX Rules
+
+Use these rules for top-level source metadata so source discovery and setup are consistent.
+
+### `description`
+
+- Start with `Query ...`.
+- Make the first sentence capability-first: list the key entities users can query.
+- Preferred template:
+  - `Query <entities> from <Provider> (<Cloud or self-hosted when relevant>).`
+- Keep `description` focused on data coverage, not setup steps.
+- Do not use vague phrasing such as:
+  - `REST API v3`
+  - `OpenAPI provider`
+  - `... and more`
+- Move auth/setup/permission details to input hints, not description text.
+
+### Input hints (`inputs.<KEY>.hint`)
+
+Each hint should tell the user:
+
+- what value is expected
+- how to obtain it
+- minimum scope/permission guidance
+- one concrete format/example when useful
+
+Specific guidance:
+
+- For URL/base inputs:
+  - say what the default means
+  - include at least one concrete example
+  - include self-hosted guidance when supported
+- For secrets:
+  - name the exact credential type (API key, PAT, application key, etc.)
+  - include format constraints when relevant (for example, token prefixes)
+  - include least-privilege scope guidance
+- For derived secrets (for example Basic auth blobs):
+  - include a short shell example (for example a Base64 command)
+- Prefer stable documentation links.
+  - Use official docs links and stable settings pages.
+  - Avoid brittle click-path instructions as the primary guidance.
+
+Keep hints concise and directly actionable.
+
 ## Validation Loop
 
 Use this loop during authoring:
@@ -121,3 +165,5 @@ Report:
 - validation commands run
 - assumptions made
 - blocked or unverified endpoints
+
+When editing bundled Coral sources in-repo, also regenerate docs so source descriptions and input hints stay in sync with `docs/reference/bundled-sources.mdx`.
