@@ -61,6 +61,8 @@ Do not treat `COUNT(*)` as sufficient pagination proof. Fetch actual rows and co
 Use this loop while iterating:
 
 ```sh
+# `coral source add` reads each input from an env var named after its `key` by
+# default. Export them first, or pass `--interactive` to be prompted.
 coral source add --file ./my-source.yaml
 coral source test my_source
 coral sql "SELECT table_name FROM coral.tables WHERE schema_name = 'my_source'"

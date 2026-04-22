@@ -56,6 +56,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
    - typed columns
 4. Import the source:
    - `coral source add --file <path>`
+   - `coral source add` is non-interactive by default: each input `key` is read from the matching environment variable. Export required variables and secrets before running, or pass `--interactive` to be prompted.
 5. Validate the imported shape:
    - `coral source test <name>`
    - inspect `coral.tables`
@@ -80,6 +81,8 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 Use this loop during authoring:
 
 ```sh
+# Export any required inputs first (key matches the input `key` in the spec),
+# or pass --interactive to be prompted.
 coral source add --file ./my-source.yaml
 coral source test my_source
 coral sql "SELECT * FROM coral.tables WHERE schema_name = 'my_source'"
