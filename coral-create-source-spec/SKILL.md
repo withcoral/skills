@@ -106,6 +106,16 @@ For HTTP-backed sources:
 
 Read `references/http-source-checklist.md` when you need table-shape and pagination guidance.
 
+If your HTTP source uses an Authorization header with a prefix (e.g. `Authorization: Bearer <token>`), you can use a secret input for the token and define the header as a template:
+
+```yaml
+auth:
+  headers:
+    - name: Authorization
+      from: template
+      template: Bearer {{input.FOOBAR_API_KEY}}
+```
+
 ## Local Data Sources
 
 For local file-backed sources:
