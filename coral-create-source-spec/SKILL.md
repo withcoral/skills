@@ -50,6 +50,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
    - auth
    - variables and secrets
    - tables
+   - per-table `guide` text when a table needs query hints, required-filter reminders, or gotchas surfaced in `coral.tables.guide`
    - filters
    - response extraction
    - pagination
@@ -72,6 +73,8 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 - Use source variables for non-secret configuration.
 - Use source secrets for credentials.
 - Keep table names stable and SQL-friendly.
+- Add a table-level `guide` field when query authors would benefit from examples, required-filter reminders, or caveats; it belongs inside the relevant table entry in the manifest, alongside the rest of that table's metadata.
+- Concrete examples in the Coral repo include `sources/statusgator/manifest.yaml` (`boards`) and `sources/linear/manifest.yaml` (`teams`), where `guide` sits directly under `description` within a table entry.
 - Mark filters as required only when the API truly requires them.
 - Prefer explicit pagination when the API shape is known.
 - Verify pagination with actual row fetches, not only `COUNT(*)`.
@@ -99,6 +102,7 @@ For HTTP-backed sources:
 - define `backend: http`
 - define `base_url`
 - define auth headers
+- define table-level `guide` text for tables that need query examples or caveats
 - define request path, query, and body only where needed
 - define response `rows_path`
 - define pagination explicitly when the provider pattern is known
