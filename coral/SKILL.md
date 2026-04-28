@@ -11,24 +11,28 @@ Use this skill to answer data questions by querying connected sources with `cora
 
 Before writing any query, follow these steps:
 
-1. **List available tables:**
+1. **List visible tables, descriptions, guides, and required filters:**
 
 ```sql
-SELECT schema_name, table_name, description, required_filters, guide FROM coral.tables;
+SELECT schema_name, table_name, description, required_filters, guide
+FROM coral.tables
+ORDER BY schema_name, table_name;
 ```
 
 2. **Read the `guide` column** — it contains per-table query patterns and gotchas. Use it.
 
-3. **Check required filters** for the table you want to query. Queries against tables with required filters will fail without the corresponding WHERE clauses.
+3. **Find tables by substring within a known schema when needed:**
 
 ```sql
-SELECT column_name, data_type, is_required_filter, is_virtual, description
-FROM coral.columns
-WHERE schema_name = '<source>' AND table_name = '<table>'
-ORDER BY ordinal_position;
+SELECT schema_name, table_name, description, required_filters
+FROM coral.tables
+WHERE schema_name = '<source>' AND table_name LIKE '%<term>%'
+ORDER BY schema_name, table_name;
 ```
 
-4. **Inspect source inputs when config affects the query or answer.** This matters when you need source-specific values such as Datadog's `DD_SITE` or Sentry's `SENTRY_ORG` to build absolute links, explain account scope, or debug missing configuration.
+4. **Use `DESCRIBE <source>.<table>` or `SHOW COLUMNS FROM <source>.<table>` only as quick shape shortcuts.**
+
+5. **Inspect source inputs when config affects the query or answer.** This matters when you need source-specific values such as Datadog's `DD_SITE` or Sentry's `SENTRY_ORG` to build absolute links, explain account scope, or debug missing configuration.
 
 ```sql
 SELECT key, kind, value, default_value, hint, required, is_set
@@ -37,7 +41,16 @@ WHERE schema_name = '<source>'
 ORDER BY key;
 ```
 
-5. **Then query:**
+6. **Use `coral.columns` as canonical column metadata** for column types, descriptions, virtual columns, and required-filter markers. Queries against tables with required filters will fail without the corresponding WHERE clauses.
+
+```sql
+SELECT column_name, data_type, is_required_filter, is_virtual, description
+FROM coral.columns
+WHERE schema_name = '<source>' AND table_name = '<table>'
+ORDER BY ordinal_position;
+```
+
+7. **Then query:**
 
 ```bash
 coral sql "SELECT <columns> FROM <source>.<table> WHERE <required_filters> LIMIT 10"
