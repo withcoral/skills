@@ -74,7 +74,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 - Use source secrets for credentials.
 - Keep table names stable and SQL-friendly.
 - Add a table-level `guide` field when query authors would benefit from examples, required-filter reminders, or caveats; it belongs inside the relevant table entry in the manifest, alongside the rest of that table's metadata.
-- Concrete examples in the Coral repo include `sources/statusgator/manifest.yaml` (`boards`) and `sources/linear/manifest.yaml` (`teams`), where `guide` sits directly under `description` within a table entry.
+- Canonical examples live in the Coral repo: https://github.com/withcoral/coral/blob/main/sources/statusgator/manifest.yaml (`boards`) and https://github.com/withcoral/coral/blob/main/sources/linear/manifest.yaml (`teams`). In both manifests, `guide` sits directly under `description` within a table entry.
 - Mark filters as required only when the API truly requires them.
 - Prefer explicit pagination when the API shape is known.
 - Verify pagination with actual row fetches, not only `COUNT(*)`.
