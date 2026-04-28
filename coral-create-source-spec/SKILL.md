@@ -11,6 +11,7 @@ Use this skill when the task is to author or repair a Coral source spec.
 
 Produce a valid, queryable Coral source spec that works with:
 
+- `coral source lint <path>`
 - `coral source add --file <path>`
 - `coral source test <name>`
 - `coral sql`
@@ -24,7 +25,8 @@ Default to standalone source authoring for external developers.
 That means:
 
 - create a YAML source spec file
-- add it with `coral source add --file`
+- lint it early with `coral source lint <path>`
+- add it to Coral with `coral source add --file <path>` when you need to exercise it as a source
 - validate by querying it
 - iterate until the shape is correct
 
@@ -34,9 +36,11 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 
 - External authoring:
   - create a standalone source spec such as `./my-source.yaml`
-  - validate with `coral source add --file ./my-source.yaml`
+  - validate structure with `coral source lint ./my-source.yaml`
+  - load it with `coral source add --file ./my-source.yaml` when you need to query it through Coral
 - Coral repo contribution:
   - write the source spec to `sources/<name>/manifest.yaml`
+  - add representative `test_queries` for a basic smoke/connection check of the source
   - validate with `coral source test <name>` and repo checks
 
 ## Workflow
@@ -54,16 +58,19 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
    - response extraction
    - pagination
    - typed columns
-4. Import the source:
-   - `coral source add --file <path>`
+4. Lint the source spec:
+   - `coral source lint <path>`
+5. Validate the source in the right mode:
+   - standalone specs: `coral source add --file <path>` and inspect with `coral sql`
    - `coral source add` is non-interactive by default: each input `key` is read from the matching environment variable. Export required variables and secrets before running, or pass `--interactive` to be prompted.
-5. Validate the imported shape:
-   - `coral source test <name>`
+   - named or repo-bundled sources: `coral source test <name>`
+6. Inspect the exposed shape:
    - inspect `coral.tables`
    - inspect `coral.columns`
    - inspect `coral.inputs` to verify variables, secrets, defaults, hints, and required flags
-6. Query representative tables with `coral sql`.
-7. Refine the spec and repeat.
+7. Query representative tables with `coral sql`.
+8. If you are relying on `coral source test`, make sure `test_queries` gives you a basic smoke/connection check for the source.
+9. Refine the spec and repeat.
 
 ## Authoring Rules
 
@@ -75,6 +82,7 @@ Only switch to repo-bundled layout when the user is explicitly editing the Coral
 - Mark filters as required only when the API truly requires them.
 - Prefer explicit pagination when the API shape is known.
 - Verify pagination with actual row fetches, not only `COUNT(*)`.
+- Add or update `test_queries` when you want `coral source test` to perform a basic smoke/connection check.
 
 ## Validation Loop
 
@@ -83,11 +91,17 @@ Use this loop during authoring:
 ```sh
 # Export any required inputs first (key matches the input `key` in the spec),
 # or pass --interactive to be prompted.
+coral source lint ./my-source.yaml
 coral source add --file ./my-source.yaml
-coral source test my_source
 coral sql "SELECT * FROM coral.tables WHERE schema_name = 'my_source'"
 coral sql "SELECT * FROM coral.columns WHERE schema_name = 'my_source'"
 coral sql "SELECT key, kind, value, default_value, hint, required, is_set FROM coral.inputs WHERE schema_name = 'my_source' ORDER BY key"
+```
+
+For repo-bundled or already-named sources, add `test_queries` for a basic smoke/connection check and run:
+
+```sh
+coral source test my_source
 ```
 
 Then run targeted table queries until the source behaves correctly.
@@ -103,6 +117,7 @@ For HTTP-backed sources:
 - define response `rows_path`
 - define pagination explicitly when the provider pattern is known
 - define typed columns
+- add `test_queries` once you know which simple query or queries should confirm the source basically works
 
 Read `references/http-source-checklist.md` when you need table-shape and pagination guidance.
 
@@ -130,7 +145,7 @@ For local file-backed sources:
 Report:
 
 - source spec path
-- import command used
+- lint / add / test commands used
 - validation commands run
 - assumptions made
 - blocked or unverified endpoints

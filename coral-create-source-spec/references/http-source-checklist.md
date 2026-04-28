@@ -6,7 +6,7 @@ Use this checklist when authoring an HTTP-backed Coral source.
 
 - Begin with one collection endpoint.
 - Add only a few columns first.
-- Import and query before expanding coverage.
+- Lint, add and query before expanding coverage.
 
 ## Source Header
 
@@ -30,6 +30,7 @@ Use:
 - Add detail routes only when item fetches are actually needed.
 - Keep table names stable and SQL-friendly.
 - Preserve provider semantics when filter behavior matters.
+- Add `test_queries` once you know which simple query or queries should confirm the source basically works.
 
 ## Response Extraction
 
@@ -42,6 +43,7 @@ Use:
 - Mark filters as required only when the upstream API requires them.
 - Use seed queries to discover real IDs for child tables.
 - If a table keeps failing with a missing required filter, inspect `coral.columns` and match the exact filter name.
+- Use `test_queries` for the small set of queries you want `coral source test` to run as a smoke/connection check.
 
 ## Pagination
 
@@ -63,10 +65,16 @@ Use this loop while iterating:
 ```sh
 # `coral source add` reads each input from an env var named after its `key` by
 # default. Export them first, or pass `--interactive` to be prompted.
+coral source lint ./my-source.yaml
 coral source add --file ./my-source.yaml
-coral source test my_source
 coral sql "SELECT table_name FROM coral.tables WHERE schema_name = 'my_source'"
 coral sql "SELECT table_name, column_name, is_required_filter FROM coral.columns WHERE schema_name = 'my_source' ORDER BY table_name, column_name"
+```
+
+If the source is named or repo-bundled, add representative `test_queries` for a basic smoke/connection check and run:
+
+```sh
+coral source test my_source
 ```
 
 Then run targeted table queries with real filters.
