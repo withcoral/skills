@@ -30,6 +30,17 @@ Use:
 - Add detail routes only when item fetches are actually needed.
 - Keep table names stable and SQL-friendly.
 - Preserve provider semantics when filter behavior matters.
+- Add a `guide` field inside a table definition when users need query examples, required-filter reminders, or table-specific caveats. This text is surfaced through `coral.tables.guide`.
+- Pattern to follow:
+
+```yaml
+tables:
+  - name: teams
+    description: Teams in the workspace
+    guide: |
+      Start here to discover `team_id` values for team-scoped tables.
+      Note any access caveats or required filters users should know.
+```
 
 ## Response Extraction
 
