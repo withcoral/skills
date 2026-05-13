@@ -11,7 +11,7 @@ Use this skill to answer data questions by querying connected sources with `cora
 
 Before writing any query, follow these steps:
 
-1. **List available tables:**
+1. **List available regular tables:**
 
 ```sql
 SELECT schema_name, table_name, description, required_filters, guide FROM coral.tables;
@@ -19,7 +19,17 @@ SELECT schema_name, table_name, description, required_filters, guide FROM coral.
 
 2. **Read the `guide` column** — it contains per-table query patterns and gotchas. Use it.
 
-3. **Check required filters** for the table you want to query. Queries against tables with required filters will fail without the corresponding WHERE clauses.
+3. **List available table functions.** Table functions expose API endpoints that require arguments. They are listed in `coral.table_functions`, not `coral.tables`, and their result columns are listed in `result_columns_json`, not `coral.columns`.
+
+```sql
+SELECT schema_name, function_name, description, arguments_json, result_columns_json
+FROM coral.table_functions
+ORDER BY schema_name, function_name;
+```
+
+Use `arguments_json` to learn required and optional arguments, and `result_columns_json` to learn output columns.
+
+4. **Check required filters** for the regular table you want to query. Queries against tables with required filters will fail without the corresponding WHERE clauses.
 
 ```sql
 SELECT column_name, data_type, is_required_filter, is_virtual, description
@@ -28,7 +38,7 @@ WHERE schema_name = '<source>' AND table_name = '<table>'
 ORDER BY ordinal_position;
 ```
 
-4. **Inspect source inputs when config affects the query or answer.** This matters when you need source-specific values such as Datadog's `DD_SITE` or Sentry's `SENTRY_ORG` to build absolute links, explain account scope, or debug missing configuration.
+5. **Inspect source inputs when config affects the query or answer.** This matters when you need source-specific values such as Datadog's `DD_SITE` or Sentry's `SENTRY_ORG` to build absolute links, explain account scope, or debug missing configuration.
 
 ```sql
 SELECT key, kind, value, default_value, hint, required, is_set
@@ -37,10 +47,11 @@ WHERE schema_name = '<source>'
 ORDER BY key;
 ```
 
-5. **Then query:**
+6. **Then query:**
 
 ```bash
 coral sql "SELECT <columns> FROM <source>.<table> WHERE <required_filters> LIMIT 10"
+coral sql "SELECT <columns> FROM <source>.<function>(arg_name => 'arg_value') WHERE <row_filters> LIMIT 10"
 ```
 
 ## Query Guidance
