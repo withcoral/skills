@@ -14,6 +14,7 @@ npx skills add withcoral/skills
 |-------|-------------|
 | [`coral`](coral/SKILL.md) | Query connected sources using Coral SQL |
 | [`coral-create-source-spec`](coral-create-source-spec/SKILL.md) | Create or update a Coral source spec YAML for a custom HTTP API or local dataset |
+| [`coral-review-source-spec`](coral-review-source-spec/SKILL.md) | Review a Coral source spec YAML for correctness and consistency |
 
 ## License
 
