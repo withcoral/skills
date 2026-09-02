@@ -6,6 +6,19 @@ Agent skills for [Coral](https://withcoral.com) - one SQL interface over APIs, f
 
 ## Installation
 
+### Claude Code
+
+```
+/plugin marketplace add withcoral/skills
+/plugin install coral@withcoral
+/plugin install coral-sources@withcoral
+```
+
+`coral` is the Coral query skill. `coral-sources` adds the source-spec authoring
+and review skills - install it only if you write or review Coral sources.
+
+### Other agents
+
 ```bash
 npx skills add withcoral/skills
 ```

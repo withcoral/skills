@@ -1,0 +1,51 @@
+{
+  "name": "withcoral",
+  "owner": {
+    "name": "Coral",
+    "url": "https://withcoral.com"
+  },
+  "description": "Agent skills for Coral - one SQL interface over APIs, files, and live sources.",
+  "plugins": [
+    {
+      "name": "coral",
+      "source": "./",
+      "skills": [
+        "./coral"
+      ],
+      "strict": false,
+      "description": "Query live sources through Coral MCP: GitHub, Jira, Slack, Linear, Datadog, Sentry, files, and connected data.",
+      "homepage": "https://withcoral.com",
+      "repository": "https://github.com/withcoral/skills",
+      "license": "Apache-2.0",
+      "category": "data",
+      "keywords": [
+        "coral",
+        "sql",
+        "mcp",
+        "data",
+        "context"
+      ]
+    },
+    {
+      "name": "coral-sources",
+      "source": "./",
+      "skills": [
+        "./coral-create-source-spec",
+        "./coral-review-source-spec"
+      ],
+      "strict": false,
+      "description": "Author and review Coral source specs: write source YAML for custom HTTP APIs or local datasets, and review source manifests and PRs.",
+      "homepage": "https://withcoral.com",
+      "repository": "https://github.com/withcoral/skills",
+      "license": "Apache-2.0",
+      "category": "data",
+      "keywords": [
+        "coral",
+        "source",
+        "yaml",
+        "manifest",
+        "review"
+      ]
+    }
+  ]
+}
